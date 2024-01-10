@@ -1,0 +1,24 @@
+{
+    "name": "package/uc",
+    "description": "A simple package for user login module",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Package\\Uc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "crazyman",
+            "email": "me@crazyman.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4||^8.0",
+        "firebase/php-jwt": "^6.9",
+        "guzzlehttp/guzzle": "^7.8",
+        "ext-json": "*",
+        "symfony/mailer": "^5.4",
+        "illuminate/database": "^8.83"
+    }
+}
