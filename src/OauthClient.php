@@ -10,6 +10,7 @@ use Package\Uc\Component\Jwt;
 use Package\Uc\Config\Config;
 use Package\Uc\Config\ConfigOption;
 use Package\Uc\Config\OauthConfig;
+use Package\Uc\DataStruct\JwtConfig;
 use Package\Uc\DataStruct\OauthUserInfo;
 use Package\Uc\DataStruct\UserInfoWithJwt;
 use Package\Uc\Exception\LackDataException;
@@ -36,7 +37,7 @@ class OauthClient
     /**
      * @throws UndefinedLoginTypeException
      */
-    public function __construct(OauthConfig $config)
+    public function __construct(OauthConfig $config, JwtConfig $jwtConfig = null)
     {
         $this->config        = $config;
         $this->loginClient   = $this->generateLoginClient($config->loginType);
@@ -44,6 +45,10 @@ class OauthClient
         $oauthUserModelClass = Config::getConfig(ConfigOption::OAUTH_USER_MODEL_CLASS);
         $this->user          = new $userModelClass();
         $this->oauthUser     = new $oauthUserModelClass();
+        if (!empty($jwtConfig)) {
+            $this->ttl    = $jwtConfig->ttl;
+            $this->jwtKey = $jwtConfig->key;
+        }
     }
 
     /**

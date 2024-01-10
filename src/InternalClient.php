@@ -8,6 +8,7 @@ use Exception;
 use Package\Uc\Common\LoginType;
 use Package\Uc\Component\Convert;
 use Package\Uc\Component\Jwt;
+use Package\Uc\DataStruct\JwtConfig;
 use Package\Uc\DataStruct\RegisterUserInfo;
 use Package\Uc\DataStruct\UserInfo;
 use Package\Uc\DataStruct\UserInfoWithJwt;
@@ -37,10 +38,14 @@ class InternalClient
     /**
      * @throws Exception
      */
-    public function __construct(string $loginType, $cacheConn)
+    public function __construct(string $loginType, $cacheConn, JwtConfig $jwtConfig = null)
     {
         $this->cacheConn   = $cacheConn;
         $this->loginClient = $this->getLoginClientByLoginType($loginType);
+        if (!empty($jwtConfig)) {
+            $this->ttl    = $jwtConfig->ttl;
+            $this->jwtKey = $jwtConfig->key;
+        }
     }
 
     /**
