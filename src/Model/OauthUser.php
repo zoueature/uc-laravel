@@ -45,7 +45,7 @@ class OauthUser extends Model
                         ->where('login_type', '=', $loginType)
                         ->where('user_id', '=', $userId)
                         ->where('active', '=', Constant::DATA_STATUS_NORMAL)
-                        ->findOrFail();
+                        ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             throw new UserNotFoundException('Oauth');
         }

@@ -62,7 +62,7 @@ class User extends Model
                 ->where('login_type', '=', $loginType)
                 ->where('identify', '=', $identify)
                 ->where('active', '=', Constant::DATA_STATUS_NORMAL)
-                ->findOrFail();
+                ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             throw new UserNotFoundException();
         }
@@ -80,7 +80,7 @@ class User extends Model
             return $this->newQuery()
                 ->where('username', '=', $username)
                 ->where('active', '=', Constant::DATA_STATUS_NORMAL)
-                ->findOrFail();
+                ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             throw new UserNotFoundException();
         }
@@ -99,7 +99,7 @@ class User extends Model
             return $this->newQuery()
                 ->where('id', '=', $id)
                 ->where('active', '=', Constant::DATA_STATUS_NORMAL)
-                ->findOrFail();
+                ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             throw new UserNotFoundException();
         }
