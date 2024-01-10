@@ -83,6 +83,20 @@ class InternalClient
     }
 
     /**
+     * registerWithNoCode 直接创建用户
+     * @param string $identify
+     * @param string $password
+     * @param string $verifyCode
+     * @param array $userInfo
+     * @return UserInfo
+     */
+    public function registerWithNoCode(string $identify, string $password, string $verifyCode, array $userInfo): UserInfo
+    {
+        $this->loginClient->checkIdentifyFormat($identify);
+        return $this->loginClient->register($identify, $password, $verifyCode, $userInfo, false);
+    }
+
+    /**
      * login 邮箱/手机号登录
      * @param string $identify
      * @param string $password

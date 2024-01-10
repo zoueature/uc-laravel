@@ -106,13 +106,15 @@ class InternalLoginImpl
      * @param string $password
      * @param string $verifyCode
      * @param array $userInfo
+     * @param bool $checkCode
      * @return UserInfo
+     * @throws UcException
      * @throws UserExistsException
-     * @throws VerifyCodeNotMatchException|UcException
+     * @throws VerifyCodeNotMatchException
      */
-    public function register(string $identify, string $password, string $verifyCode, array $userInfo): UserInfo
+    public function register(string $identify, string $password, string $verifyCode, array $userInfo, bool $checkCode = true): UserInfo
     {
-        if (!$this->verifyCodeCli->verifyCode($identify, VerifyCodeImpl::VERIFY_CODE_TYPE_REGISTER, $verifyCode)) {
+        if ($checkCode && !$this->verifyCodeCli->verifyCode($identify, VerifyCodeImpl::VERIFY_CODE_TYPE_REGISTER, $verifyCode)) {
             throw new VerifyCodeNotMatchException();
         }
         // 没有设置用户名则用标识替代
