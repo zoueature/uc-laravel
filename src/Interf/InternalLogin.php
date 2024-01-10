@@ -5,6 +5,7 @@
 namespace Package\Uc\Interf;
 
 
+use Package\Uc\DataStruct\RegisterUserInfo;
 use Package\Uc\DataStruct\UserInfo;
 
 interface InternalLogin
@@ -19,7 +20,7 @@ interface InternalLogin
     public function checkIdentifyFormat(string $identify): bool;
 
     // register 注册用户
-    public function register(string $identify, string $password, string $verifyCode, array $userInfo, bool $checkCode = true): UserInfo;
+    public function register(string $identify, string $password, string $verifyCode, RegisterUserInfo $userInfo, bool $checkCode = true): UserInfo;
 
     // login 用户登录
     public function login(string $identify, string $password): UserInfo;

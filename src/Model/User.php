@@ -39,6 +39,7 @@ class User extends Model
 {
     protected $table      = 'user';
     protected $connection = 'user_center';
+    public    $timestamps = false;
 
     public function toUserInfo(): UserInfo
     {

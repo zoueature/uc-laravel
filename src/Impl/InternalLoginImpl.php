@@ -9,7 +9,9 @@ use Package\Uc\Component\Convert;
 use Package\Uc\Component\PasswordEncrypt;
 use Package\Uc\Config\Config;
 use Package\Uc\Config\ConfigOption;
+use Package\Uc\DataStruct\RegisterUserInfo;
 use Package\Uc\DataStruct\UserInfo;
+use Package\Uc\Exception\Errcode;
 use Package\Uc\Exception\PasswordEqualOldException;
 use Package\Uc\Exception\PasswordNotMatchException;
 use Package\Uc\Exception\UcException;
@@ -105,20 +107,20 @@ class InternalLoginImpl
      * @param string $identify
      * @param string $password
      * @param string $verifyCode
-     * @param array $userInfo
+     * @param RegisterUserInfo $userInfo
      * @param bool $checkCode
      * @return UserInfo
      * @throws UcException
      * @throws UserExistsException
      * @throws VerifyCodeNotMatchException
      */
-    public function register(string $identify, string $password, string $verifyCode, array $userInfo, bool $checkCode = true): UserInfo
+    public function register(string $identify, string $password, string $verifyCode, RegisterUserInfo $userInfo, bool $checkCode = true): UserInfo
     {
         if ($checkCode && !$this->verifyCodeCli->verifyCode($identify, VerifyCodeImpl::VERIFY_CODE_TYPE_REGISTER, $verifyCode)) {
             throw new VerifyCodeNotMatchException();
         }
         // 没有设置用户名则用标识替代
-        $userInfo['username'] = $userInfo['username'] ?? $identify;
+        $userInfo->username = $userInfo->username ?: $identify;
         try {
             // 检查当前标识是否已经被注册
             $user = $this->getUserByIdentify($identify);
@@ -126,7 +128,7 @@ class InternalLoginImpl
                 throw new UserExistsException();
             }
             // 检查用户名是否被注册
-            $this->getUserByUsername($userInfo['username']);
+            $this->getUserByUsername($userInfo->username);
             throw new UserExistsException();
         } catch (UserNotFoundException $exception) {
             return $this->createUser($identify, $password, $userInfo);
@@ -137,23 +139,22 @@ class InternalLoginImpl
      * 在DB中创建用户
      * @param string $identify
      * @param string $password
-     * @param array $userInfo
+     * @param RegisterUserInfo $userInfo
      * @return UserInfo
      * @throws UcException
      */
-    private function createUser(string $identify, string $password, array $userInfo): UserInfo
+    private function createUser(string $identify, string $password, RegisterUserInfo $userInfo): UserInfo
     {
         $model             = clone $this->userModel;
         $model->login_type = $this->loginType;
         $model->identify   = $identify;
         $model->password   = $this->encryptPassword($password);
-        $model->username   = $userInfo['username'] ?? '';
-        $model->nickname   = $userInfo['nickname'] ?? '';
-        $model->avatar     = $userInfo['avatar'] ?? '';
-        $model->gender     = $userInfo['gender'] ?? 0;
+        $model->nickname   = $userInfo->username ?: '';
+        $model->avatar     = $userInfo->avtar ?: '';
+        $model->gender     = $userInfo->gender ?: 0;
         $ok                = $model->save();
         if (!$ok) {
-            throw new UcException('create user error');
+            throw new UcException('create user error', Errcode::ERR_DB_QUERY);
         }
         return $model->toUserInfo();
     }

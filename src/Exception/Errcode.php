@@ -15,4 +15,5 @@ class Errcode
     const ERR_TOKEN_EXPIRE          = 40006;
     const ERR_UNDEFINED_LOGIN_TYPE  = 40007;
     const ERR_FORMAT                = 40008;
+    const ERR_DB_QUERY              = 40010;
 }

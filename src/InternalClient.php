@@ -8,6 +8,7 @@ use Exception;
 use Package\Uc\Common\LoginType;
 use Package\Uc\Component\Convert;
 use Package\Uc\Component\Jwt;
+use Package\Uc\DataStruct\RegisterUserInfo;
 use Package\Uc\DataStruct\UserInfo;
 use Package\Uc\DataStruct\UserInfoWithJwt;
 use Package\Uc\Exception\TokenExpireException;
@@ -73,10 +74,10 @@ class InternalClient
      * @param string $identify
      * @param string $password
      * @param string $verifyCode
-     * @param array $userInfo
+     * @param RegisterUserInfo $userInfo
      * @return UserInfo
      */
-    public function register(string $identify, string $password, string $verifyCode, array $userInfo): UserInfo
+    public function register(string $identify, string $password, string $verifyCode, RegisterUserInfo $userInfo): UserInfo
     {
         $this->loginClient->checkIdentifyFormat($identify);
         return $this->loginClient->register($identify, $password, $verifyCode, $userInfo);
@@ -86,14 +87,13 @@ class InternalClient
      * registerWithNoCode 直接创建用户
      * @param string $identify
      * @param string $password
-     * @param string $verifyCode
-     * @param array $userInfo
+     * @param RegisterUserInfo $userInfo
      * @return UserInfo
      */
-    public function registerWithNoCode(string $identify, string $password, string $verifyCode, array $userInfo): UserInfo
+    public function registerWithNoCode(string $identify, string $password, RegisterUserInfo $userInfo): UserInfo
     {
         $this->loginClient->checkIdentifyFormat($identify);
-        return $this->loginClient->register($identify, $password, $verifyCode, $userInfo, false);
+        return $this->loginClient->register($identify, $password, '', $userInfo, false);
     }
 
     /**

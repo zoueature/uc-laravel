@@ -30,6 +30,7 @@ class OauthUser extends Model
 {
     protected $table      = 'oauth_user';
     protected $connection = 'user_center';
+    public    $timestamps = false;
 
     /**
      * 根据openid获取第三方登录用户信息
@@ -42,10 +43,10 @@ class OauthUser extends Model
     {
         try {
             return $this->newQuery()
-                        ->where('login_type', '=', $loginType)
-                        ->where('user_id', '=', $userId)
-                        ->where('active', '=', Constant::DATA_STATUS_NORMAL)
-                        ->firstOrFail();
+                ->where('login_type', '=', $loginType)
+                ->where('user_id', '=', $userId)
+                ->where('active', '=', Constant::DATA_STATUS_NORMAL)
+                ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             throw new UserNotFoundException('Oauth');
         }
