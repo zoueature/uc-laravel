@@ -105,4 +105,21 @@ class User extends Model
             throw new UserNotFoundException();
         }
     }
+
+    /**
+     * getUserWithNoScope 根据主键id获取用户信息
+     * @param int $id
+     * @return User
+     * @throws UserNotFoundException
+     */
+    public function getUserWithNoScope(int $id): User
+    {
+        try {
+            return $this->newQuery()
+                ->where('id', '=', $id)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            throw new UserNotFoundException();
+        }
+    }
 }

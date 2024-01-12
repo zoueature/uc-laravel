@@ -5,6 +5,7 @@
 namespace Package\Uc\Impl;
 
 
+use Package\Uc\Common\Constant;
 use Package\Uc\Component\Convert;
 use Package\Uc\Component\PasswordEncrypt;
 use Package\Uc\Config\Config;
@@ -152,6 +153,7 @@ class InternalLoginImpl
         $model->nickname   = $userInfo->username ?: '';
         $model->avatar     = $userInfo->avtar ?: '';
         $model->gender     = $userInfo->gender ?: 0;
+        $model->username   = $userInfo->username ?: '';
         $ok                = $model->save();
         if (!$ok) {
             throw new UcException('create user error', Errcode::ERR_DB_QUERY);
@@ -203,5 +205,37 @@ class InternalLoginImpl
         }
         $user->password = $encryptNewPassword;
         return $user->save();
+    }
+
+    public function forbiddenUser(int $userId): bool
+    {
+        try {
+            $userInfo = $this->userModel->getUserById($userId);
+        } catch (UserNotFoundException $exception) {
+            return true;
+        }
+        $userInfo->active = Constant::DATA_STATUS_DELETED;
+        return $userInfo->save();
+    }
+
+    public function recoverUser(int $userId): bool
+    {
+        try {
+            $userInfo = $this->userModel->getUserWithNoScope($userId);
+        } catch (UserNotFoundException $exception) {
+            return false;
+        }
+        $userInfo->active = Constant::DATA_STATUS_NORMAL;
+        return $userInfo->save();
+    }
+
+    public function getUserInfo(int $userId): ?UserInfo
+    {
+        try {
+            $userInfo = $this->userModel->getUserById($userId);
+            return $this->arrayToUserInfo($userInfo->toArray());
+        } catch (UserNotFoundException $exception) {
+            return null;
+        }
     }
 }

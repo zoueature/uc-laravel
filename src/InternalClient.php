@@ -159,4 +159,13 @@ class InternalClient
         return $this->loginClient->changePasswordByOldPassword($identify, $oldPassword, $password);
     }
 
+    public function forbiddenUser(int $id): bool
+    {
+        return $this->loginClient->forbiddenUser($id);
+    }
+
+    public function recoverUser(int $id): bool
+    {
+        return $this->loginClient->recoverUser($id);
+    }
 }

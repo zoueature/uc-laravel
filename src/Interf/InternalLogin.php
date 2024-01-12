@@ -34,4 +34,8 @@ interface InternalLogin
     // changePasswordByOldPassword 根据旧密码修改密码
     public function changePasswordByOldPassword(string $identify, string $oldPassword, string $password): bool;
 
+    public function forbiddenUser(int $userId): bool;
+
+    public function recoverUser(int $userId): bool;
+
 }

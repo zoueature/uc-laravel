@@ -7,6 +7,7 @@ namespace Package\Uc\Common;
 
 class Constant
 {
+    const GENDER_UNKNOW = 0; // 未知
     const GENDER_MALE   = 1; // 男性
     const GENDER_FEMALE = 2; // 女性
 
