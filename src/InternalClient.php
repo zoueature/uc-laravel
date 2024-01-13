@@ -168,4 +168,9 @@ class InternalClient
     {
         return $this->loginClient->recoverUser($id);
     }
+
+    public function getUserInfo(int $id): ?UserInfo
+    {
+        return $this->loginClient->getUserInfo($id);
+    }
 }

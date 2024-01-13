@@ -38,4 +38,6 @@ interface InternalLogin
 
     public function recoverUser(int $userId): bool;
 
+    public function getUserInfo(int $userId): ?UserInfo;
+
 }
