@@ -1,5 +1,5 @@
 {
-    "name": "package/uc",
+    "name": "kqxianren/uc-laravel",
     "description": "A simple package for user login module",
     "type": "library",
     "autoload": {
@@ -9,8 +9,8 @@
     },
     "authors": [
         {
-            "name": "crazyman",
-            "email": "me@crazyman.com"
+            "name": "hhhhhhh",
+            "email": "me@hhhhhhh.com"
         }
     ],
     "require": {
