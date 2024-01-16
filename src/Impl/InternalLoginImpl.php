@@ -150,7 +150,7 @@ class InternalLoginImpl
         $model->login_type = $this->loginType;
         $model->identify   = $identify;
         $model->password   = $this->encryptPassword($password);
-        $model->nickname   = $userInfo->username ?: '';
+        $model->nickname   = $userInfo->nickname ?: '';
         $model->avatar     = $userInfo->avtar ?: '';
         $model->gender     = $userInfo->gender ?: 0;
         $model->username   = $userInfo->username ?: '';
