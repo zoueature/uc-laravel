@@ -19,6 +19,6 @@
         "guzzlehttp/guzzle": "^7.8",
         "ext-json": "*",
         "symfony/mailer": "^5.4",
-        "illuminate/database": "^8.83"
+        "illuminate/database": "^10"
     }
 }
