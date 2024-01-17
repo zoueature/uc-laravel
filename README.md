@@ -10,24 +10,8 @@
 ## Quick Start 
 
 ### Install
-* 在`composer.json`上加上仓库配置
 ```
-    // 增加仓库
-    "repositories": {
-        "package/uc": {
-            "type": "git",
-            "url": "https://github.com/zoueature/uc-laravel.git"
-        }
-    }
-    
-    // 增加依赖
-    "require": {
-        "package/uc": "dev-master"
-    }
-```
-* 安装依赖
-```
-    composer install
+   composer require kqxianren/uc-laravel
 ```
 
 ### Call In Project
